@@ -9,7 +9,7 @@ macro_rules! epsilon(
 
 #[macro_export]
 macro_rules! assert_equal(
-    ($left:expr , $right:expr) => ({
+    ($left:expr, $right:expr) => ({
         for (&x, &y) in $left.iter().zip($right.iter()) {
             assert_eq!(x, y);
         }
@@ -44,4 +44,9 @@ macro_rules! assert_abs_close(
             }
         }
     });
+)
+
+#[macro_export]
+macro_rules! assert_ok(
+    ($result:expr) => (assert!($result.is_ok()));
 )
