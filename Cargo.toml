@@ -6,4 +6,3 @@ authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
 [lib]
 name = "assert"
 doctest = false
-plugin = true
