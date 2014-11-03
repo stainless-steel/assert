@@ -8,5 +8,5 @@ The library provides assertions for testing.
 2. Implement your feature.
 3. Create a pull request.
 
-[travis-svg]: https://travis-ci.org/rs-math/assert.svg?branch=master
-[travis-url]: https://travis-ci.org/rs-math/assert
+[travis-svg]: https://travis-ci.org/stainless-steel/assert.svg?branch=master
+[travis-url]: https://travis-ci.org/stainless-steel/assert
