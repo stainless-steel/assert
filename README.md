@@ -2,6 +2,8 @@
 
 The library provides assertions for testing.
 
+## [Documentation][docs]
+
 ## Contributing
 
 1. Fork the project.
@@ -10,3 +12,4 @@ The library provides assertions for testing.
 
 [travis-svg]: https://travis-ci.org/stainless-steel/assert.svg?branch=master
 [travis-url]: https://travis-ci.org/stainless-steel/assert
+[docs]: https://stainless-steel.github.io/assert
