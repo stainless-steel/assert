@@ -51,8 +51,8 @@ macro_rules! assert_equal(
 macro_rules! assert_err(
     ($result:expr) => {
         match $result {
-            Ok(value) => assert!(false, "Ok({})", value),
-            Err(error) => error,
+            Ok(..) => assert!(false, "got Ok(..), expected Err(..)"),
+            Err(..) => {},
         }
     };
 )
@@ -62,8 +62,8 @@ macro_rules! assert_err(
 macro_rules! assert_ok(
     ($result:expr) => {
         match $result {
-            Ok(value) => value,
-            Err(error) => assert!(false, "Err({})", error),
+            Ok(..) => {},
+            Err(..) => assert!(false, "got Err(..), expected Ok(..)"),
         }
     };
 )
@@ -76,6 +76,9 @@ macro_rules! delta(
 
 #[cfg(test)]
 mod test {
+    struct Success;
+    struct Failure;
+
     #[test]
     fn assert_equal() {
         assert_equal!([1f64, 2.0, 3.0], [1f64, 2.0, 3.0]);
@@ -93,13 +96,13 @@ mod test {
 
     #[test]
     fn assert_err() {
-        fn work() -> Result<(), ()> { Err(()) }
+        fn work() -> Result<Success, Failure> { Err(Failure) }
         assert_err!(work());
     }
 
     #[test]
     fn assert_ok() {
-        fn work() -> Result<(), ()> { Ok(()) }
+        fn work() -> Result<Success, Failure> { Ok(Success) }
         assert_ok!(work());
     }
 }
