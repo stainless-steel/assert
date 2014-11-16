@@ -7,11 +7,11 @@
 #[macro_export]
 macro_rules! assert_abs_close(
     ($x:expr, $y:expr) => ({
-        use std::num::abs;
+        use std::num::Float;
         let delta = delta!();
         for (&x, &y) in $x.iter().zip($y.iter()) {
-            if (x as f64).is_finite() && (y as f64).is_finite() {
-                assert!(abs(abs(x) - abs(y)) < delta, "|{}| !~ |{}|", x, y);
+            if x.is_finite() && y.is_finite() {
+                assert!((x.abs() - y.abs()).abs() < delta, "|{}| !~ |{}|", x, y);
             } else {
                 assert_eq!(x, y);
             }
@@ -24,11 +24,11 @@ macro_rules! assert_abs_close(
 #[macro_export]
 macro_rules! assert_close(
     ($x:expr, $y:expr) => ({
-        use std::num::abs;
+        use std::num::Float;
         let delta = delta!();
         for (&x, &y) in $x.iter().zip($y.iter()) {
-            if (x as f64).is_finite() && (y as f64).is_finite() {
-                assert!(abs(x - y) < delta, "{} !~ {}", x, y);
+            if x.is_finite() && y.is_finite() {
+                assert!((x - y).abs() < delta, "{} !~ {}", x, y);
             } else {
                 assert_eq!(x, y);
             }
