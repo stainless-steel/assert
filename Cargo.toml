@@ -2,6 +2,8 @@
 name = "assert"
 version = "0.0.1"
 authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
+license = "MIT"
+description = "The library provides assertions for testing."
 
 [lib]
 name = "assert"
