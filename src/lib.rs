@@ -17,7 +17,7 @@ macro_rules! assert_abs_close(
             }
         }
     });
-)
+);
 
 /// Assert that the distance between the corresponding elements of two vectors
 /// is smaller than `delta!()`.
@@ -34,7 +34,7 @@ macro_rules! assert_close(
             }
         }
     });
-)
+);
 
 /// Assert that two vectors are equal.
 #[macro_export]
@@ -44,7 +44,7 @@ macro_rules! assert_equal(
             assert_eq!(x, y);
         }
     });
-)
+);
 
 /// Assert that the result is unsuccessful.
 #[macro_export]
@@ -55,7 +55,7 @@ macro_rules! assert_err(
             Err(..) => {},
         }
     };
-)
+);
 
 /// Assert that the result is successful.
 #[macro_export]
@@ -66,13 +66,13 @@ macro_rules! assert_ok(
             Err(..) => assert!(false, "got Err(..), expected Ok(..)"),
         }
     };
-)
+);
 
 /// Return the square root of the machine epsilon.
 #[macro_export]
 macro_rules! delta(
     () => (::std::f64::EPSILON.sqrt());
-)
+);
 
 #[cfg(test)]
 mod test {
