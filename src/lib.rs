@@ -1,7 +1,5 @@
 //! Assertions for testing.
 
-#![feature(macro_rules)]
-
 /// Assert that the distance between the absolute values of the corresponding
 /// elements of two vectors is smaller than `delta!()`.
 #[macro_export]
