@@ -1,5 +1,7 @@
 //! Assertions for testing.
 
+#![allow(unstable)]
+
 /// Assert that the distance between the absolute values of the corresponding
 /// elements of two vectors is smaller than `delta!()`.
 #[macro_export]
@@ -78,8 +80,8 @@ mod test {
     struct Failure;
 
     #[test]
-    fn assert_equal() {
-        assert_equal!([1f64, 2.0, 3.0], [1f64, 2.0, 3.0]);
+    fn assert_abs_close() {
+        assert_abs_close!([1f64, 2.0, 3.0], [-1f64, 2.0 + 1e-10, -3.0 - 1e-10]);
     }
 
     #[test]
@@ -88,8 +90,8 @@ mod test {
     }
 
     #[test]
-    fn assert_abs_close() {
-        assert_abs_close!([1f64, 2.0, 3.0], [-1f64, 2.0 + 1e-10, -3.0 - 1e-10]);
+    fn assert_equal() {
+        assert_equal!([1f64, 2.0, 3.0], [1f64, 2.0, 3.0]);
     }
 
     #[test]
