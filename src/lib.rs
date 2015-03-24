@@ -1,5 +1,7 @@
 //! Assertions for testing.
 
+#![cfg_attr(test, feature(std_misc))]
+
 /// Assert that the distance between the absolute values of the corresponding
 /// elements of two vectors is smaller than the square root of the machine
 /// epsilon.
