@@ -1,6 +1,6 @@
 //! Assertions for testing.
 
-#![cfg_attr(test, feature(std_misc))]
+extern crate num;
 
 /// Assert that the distance between the absolute values of the corresponding
 /// elements of two vectors is smaller than the square root of the machine
@@ -18,7 +18,7 @@ macro_rules! assert_abs_close(
 #[macro_export]
 macro_rules! assert_abs_within(
     ($x:expr, $y:expr, $delta:expr) => ({
-        use std::num::Float;
+        use ::num::traits::Float;
         let delta = $delta;
         for (&x, &y) in $x.iter().zip($y.iter()) {
             if x.is_finite() && y.is_finite() {
@@ -77,7 +77,7 @@ macro_rules! assert_ok(
 #[macro_export]
 macro_rules! assert_within(
     ($x:expr, $y:expr, $delta:expr) => ({
-        use std::num::Float;
+        use ::num::traits::Float;
         let delta = $delta;
         for (&x, &y) in $x.iter().zip($y.iter()) {
             if x.is_finite() && y.is_finite() {
