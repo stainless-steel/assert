@@ -2,22 +2,23 @@
 
 extern crate num;
 
+use std::fmt::Debug;
+use num::traits::Float;
+
 /// Assert that the distance between the absolute values of the corresponding
 /// elements of two vectors is smaller than a given value.
-pub fn absolute_within(x: &[f64], y: &[f64], delta: f64) {
-    use num::traits::Float;
-
+pub fn absolute_within<T: Debug + Float>(x: &[T], y: &[T], delta: T) {
     for (&x, &y) in x.iter().zip(y.iter()) {
         if x.is_finite() && y.is_finite() {
-            assert!((x.abs() - y.abs()).abs() < delta, "|{}| !~ |{}|", x, y);
+            assert!((x.abs() - y.abs()).abs() < delta, "|{:?}| !~ |{:?}|", x, y);
         } else {
-            assert!(x == y, "|{}| !~ |{}|", x, y);
+            assert!(x == y, "|{:?}| !~ |{:?}|", x, y);
         }
     }
 }
 
 /// Assert that two vectors are equal.
-pub fn equal(x: &[f64], y: &[f64]) {
+pub fn equal<T: Debug + Float>(x: &[T], y: &[T]) {
     for (&x, &y) in x.iter().zip(y.iter()) {
         assert_eq!(x, y);
     }
@@ -41,14 +42,12 @@ pub fn success<S, E>(result: Result<S, E>) {
 
 /// Assert that the distance between the corresponding elements of two vectors
 /// is smaller than a given value.
-pub fn within(x: &[f64], y: &[f64], delta: f64) {
-    use num::traits::Float;
-
+pub fn within<T: Debug + Float>(x: &[T], y: &[T], delta: T) {
     for (&x, &y) in x.iter().zip(y.iter()) {
         if x.is_finite() && y.is_finite() {
-            assert!((x - y).abs() < delta, "{} !~ {}", x, y);
+            assert!((x - y).abs() < delta, "{:?} !~ {:?}", x, y);
         } else {
-            assert!(x == y, "{} !~ {}", x, y);
+            assert!(x == y, "{:?} !~ {:?}", x, y);
         }
     }
 }
