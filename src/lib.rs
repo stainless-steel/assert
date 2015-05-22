@@ -18,10 +18,8 @@ pub fn absolute_within<T: Debug + Float>(x: &[T], y: &[T], delta: T) {
 }
 
 /// Assert that two vectors are equal.
-pub fn equal<T: Debug + Float>(x: &[T], y: &[T]) {
-    for (&x, &y) in x.iter().zip(y.iter()) {
-        assert_eq!(x, y);
-    }
+pub fn equal<T: Debug + PartialEq>(x: T, y: T) {
+    assert_eq!(x, y);
 }
 
 /// Assert that the result is unsuccessful.
