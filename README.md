@@ -1,6 +1,6 @@
 # Assert [![Build Status][travis-svg]][travis-url]
 
-The library provides assertions for testing.
+The package provides assertions for testing.
 
 ## [Documentation][docs]
 
