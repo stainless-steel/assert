@@ -7,6 +7,3 @@ repository = "https://github.com/stainless-steel/assert"
 homepage = "https://github.com/stainless-steel/assert"
 documentation = "https://stainless-steel.github.io/assert"
 description = "The package provides assertions for testing."
-
-[dependencies]
-num = "*"

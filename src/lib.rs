@@ -1,9 +1,26 @@
 //! Assertions for testing.
 
-extern crate num;
-
 use std::fmt::Debug;
-use num::traits::Float;
+use std::ops::{Add, Div, Mul, Sub};
+
+pub trait Float: Add<Output=Self> + Div<Output=Self> + Mul<Output=Self> + Sub<Output=Self> +
+                 Copy + PartialEq + PartialOrd
+{
+    fn abs(&self) -> Self;
+    fn is_finite(&self) -> bool;
+}
+
+macro_rules! implement(
+    ($kind:ty) => (
+        impl Float for $kind {
+            #[inline(always)] fn abs(&self) -> Self { <$kind>::abs(*self) }
+            #[inline(always)] fn is_finite(&self) -> bool { <$kind>::is_finite(*self) }
+        }
+    );
+);
+
+implement!(f32);
+implement!(f64);
 
 /// Assert that the distance between the absolute values of the corresponding
 /// elements of two vectors is smaller than a given value.
