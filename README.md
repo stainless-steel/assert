@@ -12,6 +12,6 @@ The package provides assertions for testing.
 
 [version-img]: https://img.shields.io/crates/v/assert.svg
 [version-url]: https://crates.io/crates/assert
-[status-svg]: https://travis-ci.org/stainless-steel/assert.svg?branch=master
+[status-img]: https://travis-ci.org/stainless-steel/assert.svg?branch=master
 [status-url]: https://travis-ci.org/stainless-steel/assert
 [docs]: https://stainless-steel.github.io/assert
