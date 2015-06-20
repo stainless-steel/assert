@@ -1,4 +1,4 @@
-# Assert [![Build Status][travis-svg]][travis-url]
+# Assert [![Version][version-img]][version-url] [![Status][status-img]][status-url]
 
 The package provides assertions for testing.
 
@@ -8,8 +8,10 @@ The package provides assertions for testing.
 
 1. Fork the project.
 2. Implement your idea.
-3. Create a pull request.
+3. Open a pull request.
 
-[travis-svg]: https://travis-ci.org/stainless-steel/assert.svg?branch=master
-[travis-url]: https://travis-ci.org/stainless-steel/assert
+[version-img]: https://img.shields.io/crates/v/assert.svg
+[version-url]: https://crates.io/crates/assert
+[status-svg]: https://travis-ci.org/stainless-steel/assert.svg?branch=master
+[status-url]: https://travis-ci.org/stainless-steel/assert
 [docs]: https://stainless-steel.github.io/assert
