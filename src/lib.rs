@@ -5,10 +5,18 @@ use std::ops::{Add, Div, Mul, Sub};
 
 /// A floating-point number.
 pub trait Float: Add<Output=Self> + Div<Output=Self> + Mul<Output=Self> + Sub<Output=Self> +
-                 Copy + PartialEq + PartialOrd
+                 Copy + Debug + PartialEq + PartialOrd
 {
     fn abs(&self) -> Self;
     fn is_finite(&self) -> bool;
+}
+
+/// A collection of floating-point numbers.
+pub trait Floats<'l> {
+    type Item: Float;
+    type Iterator: Iterator<Item=&'l Self::Item>;
+
+    fn iterate(self) -> Self::Iterator;
 }
 
 macro_rules! implement(
@@ -20,15 +28,22 @@ macro_rules! implement(
     );
 );
 
+impl<'l, I, F> Floats<'l> for I where I: IntoIterator<Item=&'l F>, F: Float {
+    type Item = F;
+    type Iterator = I::IntoIter;
+
+    #[inline(always)] fn iterate(self) -> Self::Iterator { self.into_iter() }
+}
+
 implement!(f32);
 implement!(f64);
 
 /// Assert that the distance between the corresponding elements of two vectors
 /// is smaller than a given value.
-pub fn close<'l, I, T>(x: I, y: I, delta: T)
-    where I: IntoIterator<Item=&'l T>, T: 'l + Debug + Float
+pub fn close<'l, F, F1, F2>(x: F1, y: F2, delta: F)
+    where F1: Floats<'l, Item=F>, F2: Floats<'l, Item=F>, F: 'l + Float
 {
-    for (&x, &y) in x.into_iter().zip(y) {
+    for (&x, &y) in x.iterate().zip(y.iterate()) {
         if x.is_finite() && y.is_finite() {
             assert!((x - y).abs() < delta, "{:?} !~ {:?}", x, y);
         } else {
@@ -39,10 +54,10 @@ pub fn close<'l, I, T>(x: I, y: I, delta: T)
 
 /// Assert that the distance between the absolute values of the corresponding
 /// elements of two vectors is smaller than a given value.
-pub fn close_abs<'l, I, T>(x: I, y: I, delta: T)
-    where I: IntoIterator<Item=&'l T>, T: 'l + Debug + Float
+pub fn close_abs<'l, F, F1, F2>(x: F1, y: F2, delta: F)
+    where F1: Floats<'l, Item=F>, F2: Floats<'l, Item=F>, F: 'l + Float
 {
-    for (&x, &y) in x.into_iter().zip(y) {
+    for (&x, &y) in x.iterate().zip(y.iterate()) {
         if x.is_finite() && y.is_finite() {
             assert!((x.abs() - y.abs()).abs() < delta, "|{:?}| !~ |{:?}|", x, y);
         } else {
