@@ -27,27 +27,8 @@ pub fn close_abs<F, F1, F2>(x: F1, y: F2, delta: F) where F1: Floats<F>, F2: Flo
     }
 }
 
-/// Assert that the result is a failure.
-pub fn error<S, E>(result: Result<S, E>) {
-    match result {
-        Ok(..) => assert!(false, "got an OK, expected an error"),
-        Err(..) => {},
-    }
-}
-
-/// Assert that the result is a success.
-pub fn success<S, E>(result: Result<S, E>) {
-    match result {
-        Ok(..) => {},
-        Err(..) => assert!(false, "got an error, expected an OK"),
-    }
-}
-
 #[cfg(test)]
 mod test {
-    struct Success;
-    struct Failure;
-
     #[test]
     fn close() {
         ::close(1.0, 1.0 + 1e-10, 2e-10);
@@ -59,17 +40,5 @@ mod test {
     #[test]
     fn close_abs() {
         ::close_abs(&[1.0], &[-1.0 + 1e-10], 2e-10);
-    }
-
-    #[test]
-    fn error() {
-        fn work() -> Result<Success, Failure> { Err(Failure) }
-        ::error(work());
-    }
-
-    #[test]
-    fn success() {
-        fn work() -> Result<Success, Failure> { Ok(Success) }
-        ::success(work());
     }
 }
