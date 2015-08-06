@@ -5,7 +5,7 @@ pub use traits::{Float, Floats};
 
 /// Assert that the absolute difference between two quantities is small.
 ///
-/// In case of vector-valued quantities, the assertion is elementwise.
+/// In case of vectors, the assertion is elementwise.
 pub fn close<F, F1, F2>(x: F1, y: F2, delta: F) where F1: Floats<F>, F2: Floats<F>, F: Float {
     let (x, y) = (x.floats(), y.floats());
     assert_eq!(x.len(), y.len());
