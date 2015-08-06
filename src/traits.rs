@@ -6,7 +6,7 @@ pub trait Float: Copy + fmt::Debug + PartialEq + PartialOrd + ops::Sub<Output=Se
     fn is_finite(&self) -> bool;
 }
 
-/// A collection of floating-point numbers.
+/// One or more floating-point numbers.
 pub trait Floats<T: Float> {
     fn floats(&self) -> &[T];
 }
