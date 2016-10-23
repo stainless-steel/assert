@@ -1,9 +1,9 @@
 [package]
 name = "assert"
-version = "0.7.1"
+version = "0.7.2"
 license = "Apache-2.0/MIT"
 authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
 description = "The package provides assertions for testing."
-documentation = "https://stainless-steel.github.io/assert"
+documentation = "https://docs.rs/assert"
 homepage = "https://github.com/stainless-steel/assert"
 repository = "https://github.com/stainless-steel/assert"
