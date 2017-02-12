@@ -7,3 +7,5 @@ description = "The package provides assertions for testing."
 documentation = "https://docs.rs/assert"
 homepage = "https://github.com/stainless-steel/assert"
 repository = "https://github.com/stainless-steel/assert"
+categories = ["development-tools::testing"]
+keywords = ["testing"]
