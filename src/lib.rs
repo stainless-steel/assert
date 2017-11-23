@@ -26,8 +26,8 @@ where
 /// Assert that two sequences have the same length, and equal elements.
 ///
 /// Both macro
-/// arguments representing sequences must implement [IntoIterator] and, as with
-/// [assert_eq], sequence elements must implement or derive [Debug].
+/// arguments representing sequences must implement [`IntoIterator`] and, as
+/// with [`assert_eq`], sequence elements must implement or derive [`Debug`].
 ///
 /// # Panics
 ///
@@ -63,9 +63,9 @@ where
 /// # }
 /// ```
 ///
-/// [IntoIterator]: https://doc.rust-lang.org/std/iter/trait.IntoIterator.html
-/// [assert_eq]: https://doc.rust-lang.org/std/macro.assert_eq.html
-/// [Debug]: https://doc.rust-lang.org/std/fmt/trait.Debug.html
+/// [`IntoIterator`]: https://doc.rust-lang.org/std/iter/trait.IntoIterator.html
+/// [`assert_eq`]: https://doc.rust-lang.org/std/macro.assert_eq.html
+/// [`Debug`]: https://doc.rust-lang.org/std/fmt/trait.Debug.html
 /// ```
 ///
 
@@ -116,7 +116,7 @@ macro_rules! _assert_seq_eq (
 /// different, or two elements in the same index of their respective sequences
 /// do not compare equal.
 ///
-/// This macro supports the same usages as [assert_seq_eq], and has the same
+/// This macro supports the same usages as [`assert_seq_eq`], and has the same
 /// trait requirements.
 ///
 /// # Panics
@@ -135,7 +135,7 @@ macro_rules! _assert_seq_eq (
 /// ```
 ///
 /// Sequences of different lengths, but with equal common elements, are not
-/// considered equal (unlike when using [zip] to compare sequences):
+/// considered equal (unlike when using [`zip`] to compare sequences):
 ///
 /// ```
 /// # #[macro_use] extern crate assert; fn main() {
@@ -155,8 +155,8 @@ macro_rules! _assert_seq_eq (
 /// # }
 /// ```
 ///
-/// [assert_seq_eq]: macro.assert_seq_eq.html
-/// [zip]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip
+/// [`assert_seq_eq`]: macro.assert_seq_eq.html
+/// [`zip`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip
 #[macro_export]
 macro_rules! assert_seq_ne (
     ($left:expr, $right:expr) => (
