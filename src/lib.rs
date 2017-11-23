@@ -29,9 +29,7 @@ where
 #[macro_export]
 macro_rules! assert_seq_eq (
     ($left:expr, $right:expr) => (
-        _assert_seq_eq!($left, $right,
-            super::assert_seq_eq_deref_default,
-            super::assert_seq_eq_deref_default);
+        _assert_seq_eq!($left, $right, |&a| a, |&a| a);
     );
 
     ($left:expr, $right:expr, $left_deref:expr, $right_deref:expr) => (
@@ -69,10 +67,6 @@ macro_rules! _assert_seq_eq (
         }
     );
 );
-
-#[inline(always)]
-#[doc(hidden)]
-pub fn assert_seq_eq_deref_default<T>(val: T) -> T { val }
 
 
 #[cfg(test)]
