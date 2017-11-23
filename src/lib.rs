@@ -24,8 +24,42 @@ where
 }
 
 /// Assert that two sequences have the same length, and equal elements. This
-/// macro has similar iteration mechanics to [zip], except that sequences of
-/// different lengths will not equate to each other.
+/// macro has similar iteration mechanics to [Iterator.zip]
+/// (https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip), except
+/// that sequences of different lengths will not equate to each other.
+///
+/// # Examples
+///
+/// This macro can be used in one of two ways:
+///
+/// * Default comparison:
+///
+/// ```
+/// # #[macro_use] extern crate assert; fn main() {
+/// let left = &[1, 2, 3];
+/// let right = &[4, 5, 6];
+///
+/// assert_seq_eq!(left.iter().cloned(), right.iter().map(|&x| x - 3));
+/// # }
+/// ```
+///
+/// * Custom derefs, to transform items before comparison:
+///
+/// ```
+/// # #[macro_use] extern crate assert; fn main() {
+/// let left = &[1, 2, 3];
+/// let right = &[4, 5, 6];
+///
+/// assert_seq_eq!(
+///     left.iter(), // yields references
+///     right.iter().map(|&x| x - 3), // yields values
+///     |&x| x, |x| x);
+/// # }
+///
+/// [zip]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip
+/// ```
+///
+
 #[macro_export]
 macro_rules! assert_seq_eq (
     ($left:expr, $right:expr) => (
