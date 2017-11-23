@@ -23,10 +23,15 @@ where
     }
 }
 
-/// Assert that two sequences have the same length, and equal elements. This
-/// macro has similar iteration mechanics to [Iterator.zip]
-/// (https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip), except
-/// that sequences of different lengths will not equate to each other.
+/// Assert that two sequences have the same length, and equal elements.
+///
+/// Both macro
+/// arguments representing sequences must implement [IntoIterator] and, as with
+/// [assert_eq], sequence elements must implement or derive [Debug].
+///
+/// # Panics
+///
+/// Panics if the assertion fails.
 ///
 /// # Examples
 ///
@@ -43,7 +48,8 @@ where
 /// # }
 /// ```
 ///
-/// * Custom derefs, to transform items before comparison:
+/// * Custom derefs, to transform items before comparison. This is most useful
+/// when one sequence yields references, and one yields values:
 ///
 /// ```
 /// # #[macro_use] extern crate assert; fn main() {
@@ -53,10 +59,13 @@ where
 /// assert_seq_eq!(
 ///     left.iter(), // yields references
 ///     right.iter().map(|&x| x - 3), // yields values
-///     |&x| x, |x| x);
+///     |&a| a, |b| b);
 /// # }
+/// ```
 ///
-/// [zip]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip
+/// [IntoIterator]: https://doc.rust-lang.org/std/iter/trait.IntoIterator.html
+/// [assert_eq]: https://doc.rust-lang.org/std/macro.assert_eq.html
+/// [Debug]: https://doc.rust-lang.org/std/fmt/trait.Debug.html
 /// ```
 ///
 
@@ -102,6 +111,88 @@ macro_rules! _assert_seq_eq (
     );
 );
 
+///
+/// Asserts that two sequences are not equal; either their lengths are
+/// different, or two elements in the same index of their respective sequences
+/// do not compare equal.
+///
+/// This macro supports the same usages as [assert_seq_eq], and has the same
+/// trait requirements.
+///
+/// # Panics
+///
+/// Panics if the assertion fails.
+///
+/// # Examples
+///
+/// ```
+/// # #[macro_use] extern crate assert; fn main() {
+/// let left = &[1, 2, 3];
+/// let right = &[1, 2, 4];
+///
+/// assert_seq_ne!(left.iter(), right.iter());
+/// # }
+/// ```
+///
+/// Sequences of different lengths, but with equal common elements, are not
+/// considered equal (unlike when using [zip] to compare sequences):
+///
+/// ```
+/// # #[macro_use] extern crate assert; fn main() {
+/// let seq = &[1, 2, 3];
+///
+/// assert_seq_ne!(seq.iter(), seq.iter().take(2));
+/// # }
+/// ```
+///
+/// Custom derefs are also supported:
+///
+/// ```
+/// # #[macro_use] extern crate assert; fn main() {
+/// let seq = &[0, 1, 2];
+///
+/// assert_seq_ne!(seq.iter(), seq.iter().map(|&x| x * x), |&a| a, |b| b);
+/// # }
+/// ```
+///
+/// [assert_seq_eq]: macro.assert_seq_eq.html
+/// [zip]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip
+#[macro_export]
+macro_rules! assert_seq_ne (
+    ($left:expr, $right:expr) => (
+        _assert_seq_ne!($left, $right, |a| a, |b| b);
+    );
+
+    ($left:expr, $right:expr, $left_deref:expr, $right_deref:expr) => (
+        _assert_seq_ne!($left, $right, $left_deref, $right_deref);
+    );
+);
+
+#[macro_export]
+#[doc(hidden)]
+macro_rules! _assert_seq_ne {
+    ($left:expr, $right:expr, $left_deref:expr, $right_deref:expr) => (
+        let mut iter_left = $left.into_iter();
+        let mut iter_right = $right.into_iter();
+        let mut equal: bool = true; // assume true, prove otherwise
+        loop {
+            let (item_left, item_right) = (iter_left.next(), iter_right.next());
+            if item_left.is_none() || item_right.is_none() {
+                if item_left.is_none() != item_right.is_none() {
+                    // sequences different lengths
+                    equal = false;
+                }
+                break;
+            }
+            if $left_deref(item_left.as_ref().unwrap())
+            != $right_deref(item_right.as_ref().unwrap()) {
+                equal = false;
+                break;
+            }
+        }
+        assert!(!equal, "sequences erroneously compared equal");
+    );
+}
 
 #[cfg(test)]
 mod test {
@@ -159,6 +250,46 @@ mod test {
     fn sequence_equal_custom_deref() {
         let left = &[1, 2, 3]; // iterates as references
         let right = &[11, 12, 13]; // iterates as values
-        assert_seq_eq!(left.iter(), right.iter().map(|&x| x - 10), |&x| x, |x| x);
+        assert_seq_eq!(left.iter(), right.iter().map(|&x| x - 10),
+            |&x| x, |x| x);
+    }
+
+    #[test]
+    fn sequence_ne() {
+        let left = &[1, 2, 3];
+        let right = &[11, 12, 13];
+
+        assert_seq_ne!(left.iter(), right.iter());
+    }
+
+    #[test]
+    #[should_panic]
+    fn sequence_ne_fail() {
+        let both = &[1, 2, 3];
+
+        assert_seq_ne!(both.iter(), both.iter());
+    }
+
+    #[test]
+    fn sequence_ne_left_short() {
+        let left = &[1, 2, 3];
+        let right = &[1, 2, 3, 4];
+
+        assert_seq_ne!(left.iter(), right.iter());
+    }
+
+    #[test]
+    fn sequence_ne_right_short() {
+        let left = &[1, 2, 3, 4];
+        let right = &[1, 2, 3];
+
+        assert_seq_ne!(left.iter(), right.iter());
+    }
+
+    #[test]
+    fn sequence_ne_custom_deref() {
+        let seq = &[1, 2, 3];
+        assert_seq_ne!(seq.iter(), seq.iter().map(|&x| x - 10),
+            |&x| x, |x| x);
     }
 }
