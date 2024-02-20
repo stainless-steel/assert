@@ -2,12 +2,16 @@ use std::{fmt, ops, slice};
 
 /// A floating-point number.
 pub trait Float: Copy + fmt::Debug + PartialEq + PartialOrd + ops::Sub<Output = Self> {
+    #[doc(hidden)]
     fn abs(&self) -> Self;
+
+    #[doc(hidden)]
     fn is_finite(&self) -> bool;
 }
 
 /// One or more floating-point numbers.
 pub trait Floats<T: Float> {
+    #[doc(hidden)]
     fn floats(&self) -> &[T];
 }
 
