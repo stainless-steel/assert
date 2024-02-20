@@ -1,8 +1,7 @@
 use std::{fmt, ops, slice};
 
 /// A floating-point number.
-pub trait Float
-    : Copy + fmt::Debug + PartialEq + PartialOrd + ops::Sub<Output = Self> {
+pub trait Float: Copy + fmt::Debug + PartialEq + PartialOrd + ops::Sub<Output = Self> {
     fn abs(&self) -> Self;
     fn is_finite(&self) -> bool;
 }

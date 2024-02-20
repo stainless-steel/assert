@@ -1,6 +1,7 @@
 //! Assertions for testing.
 
 mod traits;
+
 pub use traits::{Float, Floats};
 
 /// Assert that the absolute difference between two quantities is small.
@@ -27,20 +28,20 @@ where
 mod test {
     #[test]
     fn close() {
-        ::close(1.0, 1.0 + 1e-10, 2e-10);
-        ::close(&[1.0], &[1.0 + 1e-10], 2e-10);
-        ::close(vec![1.0], &[1.0 + 1e-10], 2e-10);
-        ::close(&vec![1.0], &[1.0 + 1e-10], 2e-10);
+        super::close(1.0, 1.0 + 1e-10, 2e-10);
+        super::close(&[1.0], &[1.0 + 1e-10], 2e-10);
+        super::close(vec![1.0], &[1.0 + 1e-10], 2e-10);
+        super::close(&vec![1.0], &[1.0 + 1e-10], 2e-10);
     }
 
     #[should_panic]
     #[test]
     fn close_empty() {
-        ::close(vec![], vec![1.0], 1.0);
+        super::close(vec![], vec![1.0], 1.0);
     }
 
     #[test]
     fn close_zero() {
-        ::close(vec![1.0], vec![1.0], 0.0);
+        super::close(vec![1.0], vec![1.0], 0.0);
     }
 }
